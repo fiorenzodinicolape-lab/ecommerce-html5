@@ -1,86 +1,139 @@
-const cart = [];
+const CART_KEY = 'commerce-ready-cart';
 
-const cartPanel = document.getElementById('cart-panel');
-const cartCount = document.getElementById('cart-count');
-const cartItems = document.getElementById('cart-items');
-const cartTotal = document.getElementById('cart-total');
-const cartBtn = document.querySelector('.cart-btn');
-const closeCartBtn = document.getElementById('close-cart');
-
-function updateCart() {
-  cartCount.textContent = cart.length;
-
-  if (cart.length === 0) {
-    cartItems.innerHTML = '<p class="empty-cart">Nessun articolo nel carrello.</p>';
-    cartTotal.textContent = '€0';
-    return;
+function getCart() {
+  try {
+    const stored = localStorage.getItem(CART_KEY);
+    return stored ? JSON.parse(stored) : [];
+  } catch (error) {
+    return [];
   }
+}
 
-  let total = 0;
-  cartItems.innerHTML = cart
-    .map(
-      (item, index) => {
-        total += item.price;
+function saveCart(cart) {
+  localStorage.setItem(CART_KEY, JSON.stringify(cart));
+}
+
+function updateCartUI() {
+  const cart = getCart();
+  const countEl = document.getElementById('cart-count');
+  const panel = document.getElementById('cart-panel');
+  const itemsEl = document.getElementById('cart-items');
+  const totalEl = document.getElementById('cart-total');
+
+  if (countEl) countEl.textContent = String(cart.length);
+
+  if (itemsEl && totalEl) {
+    if (!cart.length) {
+      itemsEl.innerHTML = '<p class="empty-cart">Nessun articolo nel carrello.</p>';
+      totalEl.textContent = '€0';
+      return;
+    }
+
+    let total = 0;
+    itemsEl.innerHTML = cart
+      .map((item, index) => {
+        total += Number(item.price || 0) * Number(item.quantity || 1);
+        const details = item.color || item.size ? ` (${item.color || ''}${item.color && item.size ? ' / ' : ''}${item.size || ''})` : '';
         return `
           <div class="cart-item">
             <div>
-              <h4>${item.name}</h4>
-              <span>€${item.price}</span>
+              <h4>${item.name}${details}</h4>
+              <span>€${Number(item.price || 0)} x ${item.quantity || 1}</span>
             </div>
             <button class="remove-item" data-index="${index}">Rimuovi</button>
           </div>
         `;
-      }
-    )
-    .join('');
+      })
+      .join('');
 
-  cartTotal.textContent = `€${total}`;
+    totalEl.textContent = `€${total}`;
 
-  document.querySelectorAll('.remove-item').forEach((button) => {
-    button.addEventListener('click', (event) => {
-      const index = Number(event.target.dataset.index);
-      cart.splice(index, 1);
-      updateCart();
+    document.querySelectorAll('.remove-item').forEach((button) => {
+      button.addEventListener('click', () => {
+        const idx = Number(button.dataset.index);
+        const current = getCart();
+        current.splice(idx, 1);
+        saveCart(current);
+        updateCartUI();
+      });
     });
-  });
+  }
+
+  if (panel && panel.classList && panel.classList.contains('open')) {
+    panel.classList.add('open');
+  }
 }
 
-cartBtn.addEventListener('click', () => {
-  cartPanel.classList.add('open');
-});
+function addToCart(product) {
+  const cart = getCart();
+  cart.push(product);
+  saveCart(cart);
+  updateCartUI();
 
-closeCartBtn.addEventListener('click', () => {
-  cartPanel.classList.remove('open');
-});
+  const panel = document.getElementById('cart-panel');
+  if (panel) panel.classList.add('open');
+}
 
-document.querySelectorAll('.add-to-cart').forEach((button) => {
-  button.addEventListener('click', () => {
-    const name = button.dataset.name;
-    const price = Number(button.dataset.price);
+window.CommerceCart = {
+  getCart,
+  saveCart,
+  addToCart,
+  updateCartUI,
+  removeFromCart(index) {
+    const cart = getCart();
+    cart.splice(index, 1);
+    saveCart(cart);
+    updateCartUI();
+  }
+};
 
-    cart.push({ name, price });
-    updateCart();
-    cartPanel.classList.add('open');
+document.addEventListener('DOMContentLoaded', () => {
+  updateCartUI();
+
+  const cartBtn = document.querySelector('.cart-btn');
+  const closeCartBtn = document.getElementById('close-cart');
+  const panel = document.getElementById('cart-panel');
+
+  if (cartBtn) {
+    cartBtn.addEventListener('click', () => {
+      if (panel) panel.classList.add('open');
+    });
+  }
+
+  if (closeCartBtn) {
+    closeCartBtn.addEventListener('click', () => {
+      if (panel) panel.classList.remove('open');
+    });
+  }
+
+  document.querySelectorAll('.add-to-cart').forEach((button) => {
+    button.addEventListener('click', () => {
+      addToCart({
+        name: button.dataset.name || 'Prodotto',
+        price: Number(button.dataset.price || 0),
+        quantity: 1
+      });
+    });
   });
+
+  document.querySelectorAll('.add-to-cart-large').forEach((button) => {
+    button.addEventListener('click', () => {
+      const selectedColor = document.getElementById('selected-color')?.textContent || 'Bianco';
+      const selectedSize = document.querySelector('.size-btn.active')?.textContent || 'S';
+      const quantity = Number(document.getElementById('qty')?.value || 1);
+      addToCart({
+        name: 'Classic Tee',
+        price: 49,
+        color: selectedColor,
+        size: selectedSize,
+        quantity
+      });
+    });
+  });
+
+  if (document.querySelector('.checkout-btn')) {
+    document.querySelector('.checkout-btn').addEventListener('click', () => {
+      window.location.href = 'checkout.html';
+    });
+  }
 });
-
-updateCart();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

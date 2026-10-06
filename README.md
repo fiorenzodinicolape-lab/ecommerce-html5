@@ -1,2 +1,14 @@
-# ecommerce-html5
-A stylish ecommerce landing page template built with HTML5, CSS, and JavaScript.
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('contact-form');
+  const success = document.getElementById('contact-success');
+
+  if (form) {
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      if (success) {
+        success.hidden = false;
+      }
+      form.reset();
+    });
+  }
+});
