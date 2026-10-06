@@ -1,14 +1,7 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const form = document.getElementById('contact-form');
-  const success = document.getElementById('contact-success');
-
-  if (form) {
-    form.addEventListener('submit', (event) => {
-      event.preventDefault();
-      if (success) {
-        success.hidden = false;
-      }
-      form.reset();
-    });
-  }
-});
+node_modules/
+.env
+npm-debug.log*
+.DS_Store
+coverage/
+public/uploads/
+data/*.db

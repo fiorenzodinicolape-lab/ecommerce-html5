@@ -1,0 +1,55 @@
+# COMMERCE READY
+
+Ecommerce moderno e completo realizzato con Node.js, Express e SQLite.
+
+## Funzionalità
+
+- Catalogo prodotti con ricerca real-time
+- Filtri per categoria, prezzo e featured
+- Carrello lato client con persistenza
+- Pagina prodotto con galleria immagini
+- Checkout e riepilogo ordine
+- Form contatti
+- Autenticazione utente e registrazione
+- Dashboard admin per CRUD prodotti
+- API REST per gestione prodotti e ordini
+
+## Requisiti
+
+- Node.js 18+
+- npm
+
+## Installazione
+
+1. Clona il repository
+2. Esegui:
+   npm install
+3. Avvia il server:
+   npm start
+4. Apri nel browser:
+   http://localhost:3000
+
+## Credenziali demo admin
+
+- Email: admin@commerceready.it
+- Password: admin123
+
+## Struttura
+
+- `server.js`: server Express
+- `db.js`: inizializzazione SQLite e seed dati
+- `public/`: frontend statico
+
+## API principali
+
+- GET /api/products
+- GET /api/products/:id
+- POST /api/auth/register
+- POST /api/auth/login
+- POST /api/orders
+- GET /api/admin/products
+- POST /api/admin/products
+
+## Nota
+
+Questo progetto è pensato come ecommerce demo completo e funzionante, pronto per sviluppo ulteriore e personalizzazione.

@@ -1,0 +1,92 @@
+document.addEventListener('DOMContentLoaded', async () => {
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get('id');
+
+  if (!id) {
+    window.location.href = 'index.html';
+    return;
+  }
+
+  const res = await fetch(`/api/products/${id}`);
+  const product = await res.json();
+
+  if (!product || product.message) {
+    window.location.href = 'index.html';
+    return;
+  }
+
+  const image = product.image_url || 'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=900&q=80';
+  document.getElementById('main-img').src = image;
+  document.getElementById('product-name').textContent = product.name;
+  document.getElementById('product-breadcrumb').textContent = product.name;
+  document.getElementById('product-description').textContent = product.description;
+  document.getElementById('product-price').textContent = `€${Number(product.price).toFixed(2)}`;
+
+  const thumbs = document.querySelectorAll('.thumbnail');
+  thumbs.forEach((button, index) => {
+    const src = [image, image, image, image][index];
+    button.dataset.src = src;
+    const img = button.querySelector('img');
+    img.src = src;
+  });
+
+  const addLargeButton = document.querySelector('.add-to-cart-large');
+  addLargeButton.addEventListener('click', () => {
+    const color = document.getElementById('selected-color')?.textContent || 'Bianco';
+    const size = document.querySelector('.size-btn.active')?.textContent || 'S';
+    const quantity = Number(document.getElementById('qty')?.value || 1);
+
+    const cart = JSON.parse(localStorage.getItem('commerce-ready-cart') || '[]');
+    cart.push({
+      name: product.name,
+      price: Number(product.price),
+      color,
+      size,
+      quantity
+    });
+    localStorage.setItem('commerce-ready-cart', JSON.stringify(cart));
+
+    const panel = document.getElementById('cart-panel');
+    if (panel) panel.classList.add('open');
+    window.location.reload();
+  });
+
+  document.querySelectorAll('.color-btn').forEach((button) => {
+    button.addEventListener('click', () => {
+      document.querySelectorAll('.color-btn').forEach((item) => item.classList.remove('active'));
+      button.classList.add('active');
+      document.getElementById('selected-color').textContent = button.dataset.color || 'Bianco';
+    });
+  });
+
+  document.querySelectorAll('.size-btn').forEach((button) => {
+    button.addEventListener('click', () => {
+      document.querySelectorAll('.size-btn').forEach((item) => item.classList.remove('active'));
+      button.classList.add('active');
+    });
+  });
+
+  document.getElementById('qty-minus').addEventListener('click', () => {
+    const input = document.getElementById('qty');
+    input.value = Math.max(1, Number(input.value || 1) - 1);
+  });
+
+  document.getElementById('qty-plus').addEventListener('click', () => {
+    const input = document.getElementById('qty');
+    input.value = Math.min(10, Number(input.value || 1) + 1);
+  });
+
+  document.querySelectorAll('.thumbnail').forEach((thumb) => {
+    thumb.addEventListener('click', () => {
+      document.querySelectorAll('.thumbnail').forEach((item) => item.classList.remove('active'));
+      thumb.classList.add('active');
+      document.getElementById('main-img').src = thumb.dataset.src;
+    });
+  });
+
+  const cartBtn = document.querySelector('.cart-btn');
+  const closeCartBtn = document.getElementById('close-cart');
+  const panel = document.getElementById('cart-panel');
+  if (cartBtn) cartBtn.addEventListener('click', () => panel.classList.add('open'));
+  if (closeCartBtn) closeCartBtn.addEventListener('click', () => panel.classList.remove('open'));
+});

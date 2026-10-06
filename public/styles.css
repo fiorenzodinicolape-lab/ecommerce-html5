@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>COMMERCE READY</title>
+    <meta name="description" content="Ecommerce completo di moda moderna e abbigliamento premium." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="header">
+      <div class="container nav">
+        <div class="brand">COMMERCE READY</div>
+        <nav class="main-nav">
+          <a href="#new">Nuove uscite</a>
+          <a href="#featured">In evidenza</a>
+          <a href="#categories">Collezioni</a>
+          <a href="contact.html">Contatti</a>
+          <a href="auth.html">Accedi</a>
+        </nav>
+        <div class="nav-actions">
+          <button class="icon-btn" aria-label="Cerca">⌕</button>
+          <button class="icon-btn" aria-label="Utente" onclick="window.location.href='auth.html'">◌</button>
+          <button class="cart-btn" aria-label="Carrello">
+            Carrello <span id="cart-count">0</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container hero-content">
+          <div class="hero-copy">
+            <p class="eyebrow">Nuova collezione autunno</p>
+            <h1>Moderna. Comoda. Ready per ogni giorno.</h1>
+            <p>Scopri capi essenziali per il tuo wardrobe con tessuti premium, linee pulite e un look contemporaneo.</p>
+            <div class="hero-actions">
+              <a href="#featured" class="btn btn-primary">Shop now</a>
+              <a href="#new" class="btn btn-secondary">Esplora</a>
+            </div>
+            <div class="stats">
+              <div><strong>20k+</strong><span>clienti soddisfatti</span></div>
+              <div><strong>4.9/5</strong><span>valutazione media</span></div>
+              <div><strong>48h</strong><span>consegna veloce</span></div>
+            </div>
+          </div>
+
+          <div class="hero-visual">
+            <div class="product-card highlight">
+              <span class="badge">Best seller</span>
+              <img src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=900&q=80" alt="Modello in abbigliamento elegante" />
+              <div class="card-meta">
+                <div>
+                  <h3>Urban Layer</h3>
+                  <p>Giubbotto oversize</p>
+                </div>
+                <strong>€129</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="search-tools container">
+        <div class="search-bar-wrap">
+          <input id="search-input" type="search" placeholder="Cerca prodotti, categorie o marchi..." />
+          <button id="search-button" class="btn btn-primary">Cerca</button>
+        </div>
+
+        <div class="filters-row">
+          <select id="category-filter">
+            <option value="">Tutte le categorie</option>
+            <option value="Casual">Casual</option>
+            <option value="Denim">Denim</option>
+            <option value="Elegant">Elegant</option>
+            <option value="Outerwear">Outerwear</option>
+          </select>
+
+          <select id="sort-filter">
+            <option value="newest">Più recenti</option>
+            <option value="price_asc">Prezzo: crescente</option>
+            <option value="price_desc">Prezzo: decrescente</option>
+          </select>
+
+          <input id="min-price" type="number" placeholder="Prezzo min" min="0" />
+          <input id="max-price" type="number" placeholder="Prezzo max" min="0" />
+        </div>
+      </section>
+
+      <section class="brands container" aria-label="Brand partners">
+        <span>ASOS</span>
+        <span>H&M</span>
+        <span>ZARA</span>
+        <span>Levi's</span>
+        <span>Pull&Bear</span>
+      </section>
+
+      <section id="new" class="section container">
+        <div class="section-header">
+          <div>
+            <p class="eyebrow">Nuove uscite</p>
+            <h2>Collezione del mese</h2>
+          </div>
+          <a href="#featured" class="link-btn">Vedi tutti</a>
+        </div>
+
+        <div id="products-grid" class="product-grid"></div>
+      </section>
+
+      <section id="featured" class="section promo-band">
+        <div class="container promo-content">
+          <div>
+            <p class="eyebrow">Offerta speciale</p>
+            <h2>Save up to 40% on selected essentials</h2>
+          </div>
+          <a href="#categories" class="btn btn-primary">Scopri l'offerta</a>
+        </div>
+      </section>
+
+      <section id="categories" class="section container">
+        <div class="section-header">
+          <div>
+            <p class="eyebrow">Esplora</p>
+            <h2>Le nostre categorie</h2>
+          </div>
+        </div>
+
+        <div class="category-grid">
+          <article class="category-card"><img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=900&q=80" alt="Categoria casual" /><div><h3>Casual</h3><span>88 prodotti</span></div></article>
+          <article class="category-card"><img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=900&q=80" alt="Categoria denim" /><div><h3>Denim</h3><span>57 prodotti</span></div></article>
+          <article class="category-card"><img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=900&q=80" alt="Categoria elegant" /><div><h3>Elegant</h3><span>64 prodotti</span></div></article>
+        </div>
+      </section>
+
+      <section id="about" class="section testimonials container">
+        <div class="section-header">
+          <div>
+            <p class="eyebrow">Perché scegliere noi</p>
+            <h2>Apprezzato da chi cerca comfort e stile</h2>
+          </div>
+        </div>
+
+        <div class="testimonial-grid">
+          <blockquote>“Materiali premium, taglie perfette e un design davvero moderno. Ho trovato il mio outfit preferito in pochi minuti.”<footer>— Marta G.</footer></blockquote>
+          <blockquote>“Spedizione veloce e servizio impeccabile. Il sito è semplice da usare e i prodotti sono davvero belli.”<footer>— Luca R.</footer></blockquote>
+          <blockquote>“Credo sia il negozio ideale per chi vuole un look elegante ma comodo ogni giorno.”<footer>— Sofia T.</footer></blockquote>
+        </div>
+      </section>
+    </main>
+
+    <aside class="cart-panel" id="cart-panel" aria-live="polite">
+      <div class="cart-header">
+        <h3>Il tuo carrello</h3>
+        <button id="close-cart" aria-label="Chiudi carrello">✕</button>
+      </div>
+      <div id="cart-items" class="cart-items"><p class="empty-cart">Nessun articolo nel carrello.</p></div>
+      <div class="cart-footer">
+        <div class="total-row"><span>Totale</span> <strong id="cart-total">€0</strong></div>
+        <button class="checkout-btn" onclick="window.location.href='checkout.html'">Vai alla cassa</button>
+      </div>
+    </aside>
+
+    <footer class="footer">
+      <div class="container footer-content">
+        <div>
+          <div class="brand">COMMERCE READY</div>
+          <p>Abbigliamento moderno per il tuo stile quotidiano.</p>
+        </div>
+        <div>
+          <h4>Compagnia</h4>
+          <a href="#about">Chi siamo</a>
+          <a href="#featured">Offerte</a>
+          <a href="#new">Novità</a>
+        </div>
+        <div>
+          <h4>Supporto</h4>
+          <a href="contact.html">Contatti</a>
+          <a href="#">Consegna</a>
+          <a href="#">FAQ</a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
